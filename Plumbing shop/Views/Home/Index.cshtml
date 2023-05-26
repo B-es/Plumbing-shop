@@ -1,8 +1,25 @@
-﻿@{
+﻿@using Plumbing_shop
+@model string
+
+@{
     ViewData["Title"] = "Home Page";
+    ViewBag.lenBtn = ViewBag.len / 3;
+    if (ViewBag.len / 3 < ViewBag.len)
+    {
+        ViewBag.lenBtn++;
+    }
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+<div style="display:flex; flex-direction:row">
+    @for (int i = 0; i < ViewBag.lenBtn; i++)
+    {
+        <button class="btn" id="@i" name="nextBtn" onclick="returnArrayAsync(5)">@i</button>
+        <script>
+            window.showBlocks = (dotNetHelper) => {
+                return dotNetHelper.invokeMethod
+            }
+        </script>
+    }
 </div>

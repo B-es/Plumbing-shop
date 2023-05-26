@@ -9,10 +9,21 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    height: fit-content;
+    width: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  height: fit-content;
+  width: 100%;
+}
+
+.footer{
+    color:gray;
+    position:relative;
+    bottom:0;
+    text-align:center;
+    width:100%;
+
 }

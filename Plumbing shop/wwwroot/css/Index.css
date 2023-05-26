@@ -1,0 +1,22 @@
+﻿.product {
+    color: cadetblue;
+    border: 2px solid aquamarine;
+    width: 20vw;
+    height: 30vh;
+    background-color: transparent;
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 20px;
+    transition: background linear .2s;
+}
+
+
+.product-place {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+
+.product:hover {
+    background-color:azure;
+}
