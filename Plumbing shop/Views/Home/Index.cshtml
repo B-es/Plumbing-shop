@@ -1,25 +1,39 @@
 ﻿@using Plumbing_shop
-@model string
-
+@model IndexViewModel
 @{
     ViewData["Title"] = "Home Page";
-    ViewBag.lenBtn = ViewBag.len / 3;
-    if (ViewBag.len / 3 < ViewBag.len)
-    {
-        ViewBag.lenBtn++;
-    }
+    int start = 0;
 }
 
-
-
-<div style="display:flex; flex-direction:row">
-    @for (int i = 0; i < ViewBag.lenBtn; i++)
-    {
-        <button class="btn" id="@i" name="nextBtn" onclick="returnArrayAsync(5)">@i</button>
-        <script>
-            window.showBlocks = (dotNetHelper) => {
-                return dotNetHelper.invokeMethod
-            }
-        </script>
-    }
+<div class='product-place'>
+@for (int i = @Model.PageViewModel.StartLoop; i < @Model.PageViewModel.EndLoop; i++)
+{
+    <div class='product'>
+    <h2>Имя - @Model.Products.ElementAt(i).Name</h2>
+    <h2>Вид - @Model.Products.ElementAt(i).Type</h2>
+    <br><br>
+    <h4 style='text-align:center'>Описание:</h4>
+     <p style='color:lightslategray; text-align:center'>@Model.Products.ElementAt(i).Description</p>
+    </div>
+}
 </div>
+
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-right"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
