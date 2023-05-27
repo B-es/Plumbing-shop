@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Plumbing_shop.Models
+﻿namespace Plumbing_shop.Models
 {
     public class Product
     {

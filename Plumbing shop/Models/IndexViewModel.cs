@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Plumbing_shop.Models
+﻿namespace Plumbing_shop.Models
 {
     public class IndexViewModel
     {

@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.JSInterop;
 using Plumbing_shop.Models;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 
 namespace Plumbing_shop.Controllers
@@ -19,11 +14,6 @@ namespace Plumbing_shop.Controllers
         public HomeController(ILogger<HomeController>logger, PlumbingDbContext context)
         {
             _logger = logger;
-            Test product = new("Хрен", "Нестарый", "Скоро опишу это поеботу...");
-            Test product1 = new("Был", "Стал", "Владислав, ду ай ноу ю ор ноу...");
-            Test product2 = new("Тест", "Хуест", "Полнейший выполненный протест...");
-            products = new Test[] { product, product1, product2, product, product1, product2, product2, product2,
-            product, product1, product2, product, product1, product2, product2, product2};
             db = context;
         }
 
