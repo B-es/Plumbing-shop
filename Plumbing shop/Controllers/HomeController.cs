@@ -7,7 +7,6 @@ namespace Plumbing_shop.Controllers
 {
     public class HomeController : Controller
     {
-        public Test[] products;
         private readonly ILogger<HomeController> _logger;
         private readonly PlumbingDbContext db;
 
