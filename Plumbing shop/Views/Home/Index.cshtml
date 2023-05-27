@@ -1,11 +1,17 @@
-﻿@model List<Entity>
+﻿@model Product
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@foreach(var m in Model)
+@Model.entity.Name
+@foreach(Plumbing_shop.Models.Attribute m in Model.attributes)
 {
-    <h1>@m.Name</h1>
+    //@m.Name;
+}
+@foreach (Plumbing_shop.Models.Value m in Model.values)
+{
+    @m.value;
+    
 }
 
 <div class="text-center">

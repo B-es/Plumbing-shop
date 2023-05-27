@@ -6,6 +6,8 @@ namespace Plumbing_shop.Models
     public class PlumbingDbContext : DbContext
     {
         public DbSet<Entity> Entities { get; set; }
+        public DbSet<Attribute> Attributes { get; set; }
+        public DbSet<Value> Values { get; set; }
         protected readonly IConfiguration Configuration;
         public PlumbingDbContext(IConfiguration configuration)
         {
@@ -22,6 +24,8 @@ namespace Plumbing_shop.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Entity>().Property(e => e.Id).UseIdentityColumn();
+            modelBuilder.Entity<Attribute>().Property(e => e.Id).UseIdentityColumn();
+            modelBuilder.Entity<Value>().Property(e => e.Id).UseIdentityColumn();
         }
         
     }

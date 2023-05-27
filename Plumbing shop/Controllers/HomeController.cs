@@ -21,8 +21,8 @@ namespace Plumbing_shop.Controllers
 
         public IActionResult Index()
         {
-            var e = db.Entities.ToList();
-            return View(e);
+            Product product = new Product(db, 1);
+            return View(product);
         }
 
         public IActionResult Privacy()
