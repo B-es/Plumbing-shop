@@ -1,5 +1,11 @@
-﻿@{
+﻿@model List<Entity>
+@{
     ViewData["Title"] = "Home Page";
+}
+
+@foreach(var m in Model)
+{
+    <h1>@m.Name</h1>
 }
 
 <div class="text-center">

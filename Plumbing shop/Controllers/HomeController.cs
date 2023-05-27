@@ -1,21 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Plumbing_shop.Models;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Plumbing_shop.Controllers
 {
     public class HomeController : Controller
     {
+        
         private readonly ILogger<HomeController> _logger;
+        private readonly PlumbingDbContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, PlumbingDbContext context)
         {
+            db = context;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var e = db.Entities.ToList();
+            return View(e);
         }
 
         public IActionResult Privacy()
