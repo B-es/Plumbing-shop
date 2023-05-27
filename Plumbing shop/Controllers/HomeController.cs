@@ -22,7 +22,8 @@ namespace Plumbing_shop.Controllers
             Product product = new("Хрен", "Нестарый", "Скоро опишу это поеботу...");
             Product product1 = new("Был", "Стал", "Владислав, ду ай ноу ю ор ноу...");
             Product product2 = new("Тест", "Хуест", "Полнейший выполненный протест...");
-            products = new Product[] { product, product1, product2, product, product1, product2, product2, product2 };
+            products = new Product[] { product, product1, product2, product, product1, product2, product2, product2,
+            product, product1, product2, product, product1, product2, product2, product2};
         }
 
         public async Task<IActionResult> Index(int page = 1)
