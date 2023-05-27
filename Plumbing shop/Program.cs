@@ -1,9 +1,13 @@
+﻿using Plumbing_shop.Models;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+// âàæíî
+builder.Services.AddDbContext<PlumbingDbContext>(opt => opt.UseSqlServer(Constants.connectMSSQL));
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
