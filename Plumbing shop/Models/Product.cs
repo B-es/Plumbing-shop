@@ -24,5 +24,15 @@ namespace Plumbing_shop.Models
             values = db.Values.Where(s => s.Id_Entity == id).ToList();
         }
 
+        static public List<Product> createProducts(PlumbingDbContext db) 
+        { 
+            var products = new List<Product>();
+            int count = db.Entities.Count();
+            for(int i = 0; i < count; i++)
+            {
+                products.Add(new Product(db, i+1));
+            }
+            return products;
+        }
     }
 }

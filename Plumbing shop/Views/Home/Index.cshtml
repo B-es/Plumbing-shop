@@ -2,20 +2,37 @@
 @model IndexViewModel
 @{
     ViewData["Title"] = "Home Page";
-    int start = 0;
+    var Products = Model.Products;
 }
 
 <div class='product-place'>
 @for (int i = @Model.PageViewModel.StartLoop; i < @Model.PageViewModel.EndLoop; i++)
 {
-    <div class='product'>
-    <h2>Имя - @Model.Products.ElementAt(i).Name</h2>
-    <h2>Вид - @Model.Products.ElementAt(i).Type</h2>
-    <br><br>
-    <h4 style='text-align:center'>Описание:</h4>
-     <p style='color:lightslategray; text-align:center'>@Model.Products.ElementAt(i).Description</p>
-    </div>
+        <div class='product' id="@i">
+            <h2>Имя - @Products.ElementAt(i).entity.Name</h2>
+                        @for (int j = 0; j < @Model.Products.ElementAt(i).attributes.Count && j < 3; j++)
+                        {
+                            <h2>@Model.Products.ElementAt(i).attributes.ElementAt(j).Name - @Model.Products.ElementAt(i).values.ElementAt(j).value</h2>
+                        }
+            
+            <br><br>
+            <h4 style='text-align:center'>Описание:</h4>
+            <p style='color:lightslategray; text-align:center'>Всё хуёво</p>
+        </div>
 }
+    <script>
+        let productBlocks = document.getElementsByClassName("product");
+        productBlocks.item(0).parentElement
+        function showScrollBar(e) {
+            elem = document.getElementById(e.target.parentElement.id)
+            if (elem === null && e.target.className === 'product') elem = document.getElementById(e.target.id)
+            elem.style.overflowY !== 'scroll' ? elem.style.overflowY = 'scroll' : elem.style.overflowY = 'hidden';  
+        }
+
+        for(let elem of productBlocks){
+            elem.addEventListener('click', showScrollBar);
+        }
+    </script>
 </div>
 
 

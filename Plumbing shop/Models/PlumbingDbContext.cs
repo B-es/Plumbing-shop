@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.VisualBasic;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-
-namespace Plumbing_shop.Models
+﻿namespace Plumbing_shop.Models
 {
     public class PlumbingDbContext : DbContext
     {

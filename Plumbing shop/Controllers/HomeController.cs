@@ -29,15 +29,16 @@ namespace Plumbing_shop.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
+            var Products = Product.createProducts(db);
             int pageSize = 6;   // количество элементов на странице
 
-            var count = products.Length;
+            var count = Products.Count;
 
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
-                Products = products
+                Products = Products
             };
             return View(viewModel);
         }
