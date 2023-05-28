@@ -1,0 +1,14 @@
+﻿@{
+	if (ViewData["Труба"] is null) ViewData["Труба"] = "none";
+	else if (ViewData["Форсунка"] is null) ViewData["Форсунка"] = "none"; ;
+}
+
+<p style='display:@ViewData["Труба"]'>Херня эдакая</p>
+<p style='display:@ViewData["Форсунка"]'>Херня эдакая2</p>
+
+<form style='display:@ViewData["Труба"]'>
+	<div>
+		<button class="btn btn-info" name="button" asp-controller="Adviser" asp-action="check" value="Горячий">Труба</button>
+		<button class="btn btn-info" name="button" asp-controller="Adviser" asp-action="check" value="Холодный">Форсунка</button>
+	</div>
+</form>
