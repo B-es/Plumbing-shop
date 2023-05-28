@@ -2,23 +2,26 @@
 {
     public class Product
     {
-        public Entity entity;
-        public List<Attribute> attributes = new List<Attribute>();
-        public List<Value> values;
+        public Entity? entity;
+        public List<Attribute?>? attributes = new List<Attribute?>();
+        public List<Value>? values;
 
         public Product(PlumbingDbContext db, int? id)
         {
             //Сущность
+            if (db.Entities.Count() == 0) return;
+
             entity = db.Entities.Find(id);
 
-            //Аттрибуты
+            //Атрибуты
             List<Value> values_att = db.Values.Where(s => s.Id_Entity == id).ToList();
-            List<int> att_ids = new List<int>();
+            List<int?> att_ids = new List<int?>();
             foreach (var att in values_att) att_ids.Add(att.Id_Attribute);
             for (int i = 0; i < att_ids.Count; i++) attributes.Add(db.Attributes.Find(att_ids[i]));
 
             //Значения
             values = db.Values.Where(s => s.Id_Entity == id).ToList();
+
         }
 
         static public List<Product> createProducts(PlumbingDbContext db) 

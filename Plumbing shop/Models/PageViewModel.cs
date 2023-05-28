@@ -26,8 +26,6 @@ namespace Plumbing_shop.Models
             }
         }
 
-
-
         public bool HasPreviousPage
         {
             get

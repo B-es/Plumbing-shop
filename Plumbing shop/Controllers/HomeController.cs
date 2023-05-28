@@ -16,7 +16,7 @@ namespace Plumbing_shop.Controllers
             db = context;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public IActionResult Index(int page = 1)
         {
             var Products = Product.createProducts(db);
             int pageSize = 6;   // количество элементов на странице

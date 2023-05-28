@@ -1,25 +1,27 @@
 ﻿@using Plumbing_shop
 @model IndexViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Домашняя страница";
     var Products = Model.Products;
 }
 
+@*Место для товаров и их вывод*@
 <div class='product-place'>
-@for (int i = @Model.PageViewModel.StartLoop; i < @Model.PageViewModel.EndLoop; i++)
-{
-        <div class='product' id="@i">
-            <h2>Имя - @Products.ElementAt(i).entity.Name</h2>
-                        @for (int j = 0; j < @Model.Products.ElementAt(i).attributes.Count && j < 3; j++)
-                        {
-                            <h2>@Model.Products.ElementAt(i).attributes.ElementAt(j).Name - @Model.Products.ElementAt(i).values.ElementAt(j).value</h2>
-                        }
-            
-            <br><br>
-            <h4 style='text-align:center'>Описание:</h4>
-            <p style='color:lightslategray; text-align:center'>Всё хуёво</p>
-        </div>
-}
+    @for (int i = @Model.PageViewModel.StartLoop; i < @Model.PageViewModel.EndLoop; i++)
+    {
+        
+            <div class='product' id="@i">
+                <h1>Имя - @Products?.ElementAt(i).entity?.Name</h1>    
+                    @for (int j = 0; j < @Model.Products?.ElementAt(i).attributes?.Count && j < 3; j++)
+                    {
+                    <h4>@Model.Products.ElementAt(i).attributes?.ElementAt(j)?.Name - @Model.Products.ElementAt(i)?.values?.ElementAt(j).value</h4>
+                    }
+                <h4>Цена - @Products?.ElementAt(i).entity?.Price</h4>
+                <h4 style='text-align:center'>Описание:</h4>
+                <p style='color:lightslategray; text-align:center'>Всё хуёво</p>
+            </div>
+        
+    }
     <script>
         let productBlocks = document.getElementsByClassName("product");
         productBlocks.item(0).parentElement
@@ -35,12 +37,12 @@
     </script>
 </div>
 
-
+@*Пагинация*@
 @if (Model.PageViewModel.HasPreviousPage)
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       class="btn btn-outline-dark">
+       class="btn btn-outline-dark" style="text-align:center; width:100%">
         <i class="glyphicon glyphicon-chevron-right"></i>
         Назад
     </a>
@@ -49,7 +51,7 @@
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       class="btn btn-outline-dark">
+       class="btn btn-outline-dark" style="text-align:center; width:100%">
         Вперед
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>

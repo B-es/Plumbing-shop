@@ -2,7 +2,7 @@
 {
     public class IndexViewModel
     {
-        public IEnumerable<Product> Products { get; set; }
-        public PageViewModel PageViewModel { get; set; }
+        public IEnumerable<Product>? Products { get; set; }
+        public PageViewModel? PageViewModel { get; set; }
     }
 }
