@@ -32,11 +32,6 @@ namespace Plumbing_shop.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Adviser()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -6,12 +6,19 @@ namespace Plumbing_shop.Controllers
 {
 	public class AdviserController : Controller
 	{
-		// GET: AdviserController
-		[HttpGet]
-		public IActionResult check(string button)
+        public IActionResult Index(string button)
+        {
+            _ = ViewData["ClickedButton"] is null ? ViewData["ClickedButton"] = "Нихрена" : ViewData["ClickedButton"] = button;
+            return View();
+        }
+
+        // GET: AdviserController
+        [HttpPost]
+		public IActionResult GetData()
 		{
-			ViewData[button] = "block"; 
-			return View("~/Views/Home/Adviser.cshtml");
+            string button = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
+            Console.WriteLine(button);
+            return RedirectToAction("Index");
 		}
 	}
 }
