@@ -11,7 +11,7 @@
     {
         
             <div class='product' id="@i">
-                <h1>Имя - @Products?.ElementAt(i).entity?.Name</h1>    
+                <h2>Имя - @Products?.ElementAt(i).entity?.Name</h2>    
                     @for (int j = 0; j < @Model.Products?.ElementAt(i).attributes?.Count && j < 3; j++)
                     {
                     <h4>@Model.Products.ElementAt(i).attributes?.ElementAt(j)?.Name - @Model.Products.ElementAt(i)?.values?.ElementAt(j).value</h4>

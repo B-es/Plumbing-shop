@@ -17,7 +17,11 @@ namespace Plumbing_shop.Controllers
 		public IActionResult GetData()
 		{
             string button = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
-            Console.WriteLine(button);
+            string[] data = button.Split(';');
+            foreach (string s in data)
+            {
+                Console.WriteLine(s);
+            }
             return RedirectToAction("Index");
 		}
 	}

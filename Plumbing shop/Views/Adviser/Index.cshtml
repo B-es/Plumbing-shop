@@ -1,88 +1,137 @@
 ﻿@{
     ViewData["Title"] = "Советник...";
 }
-<h1>Советник, который пришёл за твоей жопой...</h1>
+<h2>Советник, который пришёл за твоей жопой...</h2>
 
 <p>Никак иначе, Влад.</p>
 
+<style>
+    fieldset{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    div{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 1rem;
+    }
 
-<form method="post" action="Adviser/GetData">
+    form div{
+        padding: 2rem;
+        border: 2px solid aquamarine;
+    }
+
+    button{
+        padding: 1rem;
+    }
+    #submit{
+        margin-top: 2rem;
+    }
+</style>
+
+<form style="display:flex; justify-content:center; flex-direction:column; align-items:center;" method="post" action="Adviser/GetData">
     <fieldset>
-        <h1>Инженерная сантехника</h1>
-        <button id="1a" name="truba" value="Трубопроводы" class="btn btn-info">Трубопроводы</button>
-        <button id="1b" name="fason" value="Фасонные части" class="btn btn-info">Фасонные части</button>
+        <h2>Инженерная сантехника</h2>
+        <div>
+            <button id="a1" name="truba" value="Трубопроводы" class="btn btn-info">Трубопроводы</button>
+            <button id="b1" name="fason" value="Фасонные части" class="btn btn-info">Фасонные части</button>
+        </div>
     </fieldset>
 
     <fieldset id="truba">
-        <h1>Трубопроводы</h1>
-        <button id="2a" name="otop" value="Для отопления" class="btn btn-info">Для отопления</button>
-        <button id="2a" name="vodosnob" value="Для водоснобжения" class="btn btn-info">Для водоснобжения</button>
-        <button id="2a" name="kanal" value="Для канализации" class="btn btn-info">Для канализации</button>
-        <button id="2a" name="vodostok" value="Для водостока" class="btn btn-info">Для водостока</button>
+        <h2>Трубопроводы</h2>
+        <div>
+            <button id="a2" name="otop" value="Для отопления" class="btn btn-info">Для отопления</button>
+            <button id="a2" name="vodosnob" value="Для водоснобжения" class="btn btn-info">Для водоснобжения</button>
+            <button id="a2" name="kanal" value="Для канализации" class="btn btn-info">Для канализации</button>
+            <button id="a2" name="vodostok" value="Для водостока" class="btn btn-info">Для водостока</button>
+        </div>
     </fieldset>
 
     <fieldset id="fason">
-        <h1>Фасонные части</h1>
-        <button id="2b" name="mufta" value="Муфты" class="btn btn-info">Муфты</button>
-        <button id="2b" name="troinik" value="Тройники" class="btn btn-info">Тройники</button>
-        <button id="2b" name="perehodnik" value="Переходники" class="btn btn-info">Переходники</button>
-        <button id="2b" name="otvod" value="Отводы" class="btn btn-info">Отводы</button>
+        <h2>Фасонные части</h2>
+        <div>
+            <button id="b2" name="mufta" value="Муфты" class="btn btn-info">Муфты</button>
+            <button id="b2" name="troinik" value="Тройники" class="btn btn-info">Тройники</button>
+            <button id="b2" name="perehodnik" value="Переходники" class="btn btn-info">Переходники</button>
+            <button id="b2" name="otvod" value="Отводы" class="btn btn-info">Отводы</button>
+        </div>
     </fieldset>
 
     <fieldset id="temperature">
-        <h1>По температурному режиму</h1>
-        <button id="3a" name="temp1" value="От 5 до 30" class="btn btn-info">От 5 до 30</button>
-        <button id="3a" name="temp2" value="От 30 до 65" class="btn btn-info">От 30 до 65</button>
-        <button id="3a" name="temp3" value="От 65 до 80" class="btn btn-info">От 65 до 80</button>
-        <button id="3a" name="temp4" value="От 80 до 120" class="btn btn-info">От 80 до 120</button>
+        <h2>По температурному режиму</h2>
+        <div>
+            <button id="a3" name="temp1" value="От 5 до 30" class="btn btn-info">От 5 до 30</button>
+            <button id="a3" name="temp2" value="От 30 до 65" class="btn btn-info">От 30 до 65</button>
+            <button id="a3" name="temp3" value="От 65 до 80" class="btn btn-info">От 65 до 80</button>
+            <button id="a3" name="temp4" value="От 80 до 120" class="btn btn-info">От 80 до 120</button>
+        </div>
     </fieldset>
 
     <fieldset id="material_fason">
-        <h1>По материалу</h1>
-        <button id="3b" name="plastik" value="Пластик" class="btn btn-info">Пластик</button>
-        <button id="3b" name="med" value="Медь" class="btn btn-info">Медь</button>
-        <button id="3b" name="stal" value="Сталь" class="btn btn-info">Сталь</button>
-        <button id="3b" name="chugun" value="Чугун" class="btn btn-info">Чугун</button>
-        <button id="3b" name="pvh" value="ПВХ" class="btn btn-info">ПВХ</button>
-        <button id="3b" name="polietilen" value="Полиэтилен" class="btn btn-info">Полиэтилен</button>
+        <h2>По материалу</h2>
+        <div>
+            <button id="b3" name="plastik" value="Пластик" class="btn btn-info">Пластик</button>
+            <button id="b3" name="med" value="Медь" class="btn btn-info">Медь</button>
+            <button id="b3" name="stal" value="Сталь" class="btn btn-info">Сталь</button>
+            <button id="b3" name="chugun" value="Чугун" class="btn btn-info">Чугун</button>
+            <button id="b3" name="pvh" value="ПВХ" class="btn btn-info">ПВХ</button>
+            <button id="b3" name="polietilen" value="Полиэтилен" class="btn btn-info">Полиэтилен</button>
+        </div>
     </fieldset>
 
     <fieldset id="material_truba">
-        <h1>По материалу</h1>
-        <button id="4a" name="beton" value="Бетон" class="btn btn-info">Бетон</button>
-        <button id="4a" name="med" value="Медь" class="btn btn-info">Медь</button>
-        <button id="4a" name="stal" value="Сталь" class="btn btn-info">Сталь</button>
-        <button id="4a" name="chugun" value="Чугун" class="btn btn-info">Чугун</button>
-        <button id="4a" name="pvh" value="ПВХ" class="btn btn-info">ПВХ</button>
-        <button id="4a" name="polietilen" value="Полиэтилен" class="btn btn-info">Полиэтилен</button>
+        <h2>По материалу</h2>
+        <div>
+            <button id="a4" name="beton" value="Бетон" class="btn btn-info">Бетон</button>
+            <button id="a4" name="med" value="Медь" class="btn btn-info">Медь</button>
+            <button id="a4" name="stal" value="Сталь" class="btn btn-info">Сталь</button>
+            <button id="a4" name="chugun" value="Чугун" class="btn btn-info">Чугун</button>
+            <button id="a4" name="pvh" value="ПВХ" class="btn btn-info">ПВХ</button>
+            <button id="a4" name="polietilen" value="Полиэтилен" class="btn btn-info">Полиэтилен</button>
+        </div>
     </fieldset>
 
     <fieldset id="soed">
-        <h1>По способу соединения</h1>
-        <button id="4b" name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
-        <button id="4b" name="nerazem" value="Неразъёмный" class="btn btn-info">Неразъёмный</button>
+        <h2>По способу соединения</h2>
+        <div>
+            <button id="b4" name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <button id="b4" name="nerazem" value="Неразъёмный" class="btn btn-info">Неразъёмный</button>
+        </div>
     </fieldset>
 
     <fieldset id="diametr">
-        <h1>По диаметру</h1>
-        <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        <h2>По диаметру</h2>
+        <div>
+            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        </div>
     </fieldset>
 
     <fieldset id="dlina">
-        <h1>По длину</h1>
-        <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        <h2>По длину</h2>
+        <div>
+            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        </div>
     </fieldset>
 
     <fieldset id="proizvod">
-        <h1>По производителю</h1>
-        <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        <h2>По производителю</h2>
+        <div>
+            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        </div>
     </fieldset>
 
     <fieldset id="price">
-        <h1>По цене</h1>
-        <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>  
+        <h2>По цене</h2>
+        <div>
+            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+        </div>
     </fieldset>
-    <button id="submit" name="submit" class="btn btn-info">Найти</button>
+    <button id="submit" name="submit" class="btn btn-outline-info">Найти</button>
 
     <script>
         let fieldsets = document.getElementsByTagName("fieldset");
@@ -95,8 +144,8 @@
         }
 
         function enableAndDisable(Item) {
-            let display = Item.disabled
-            display === true ? Item.disabled = false : Item.disabled = true;
+            let disabled = Item.disabled;
+            disabled === true ? Item.disabled = false : Item.disabled = true;
         }
 
         let buttons = document.getElementsByTagName("button");
@@ -107,26 +156,34 @@
 
         const makeUniq = (arr) => [...new Set(arr)];
 
+
         function getOnlyWay(way){
             let fieldsetsWay = new Array();
-            for (let i = 0; i < buttons.length; i++) {
+            for (let i = 1; i < buttons.length; i++) {
                 let btn = buttons.item(i);
                 if(btn.name !== "submit")
                     btn.type = "button";
                 let id = btn.id
-                if (id === "" || id[1] !== way) continue
+                if (id === "" || id[0] !== way) continue
 
-                let nextNumId = Number(id[0]) + 1;
-                let nextId = String(nextNumId) + id[1];
+                let nextNumId = Number(id[1]) + 1;
+                let nextId = id[0] + String(nextNumId);
 
 
                 if (nextNumId < 5) {
-                    let nextFieldset = document.getElementById(nextId).parentElement;
+                    let nextFieldset = document.getElementById(nextId).parentElement.parentElement;
                     fieldsetsWay.push(nextFieldset);
                 }
             }
 
             return makeUniq(fieldsetsWay);
+        }
+
+        function enabledAllButtons(){
+            for (let i = 3; i < buttons.length; i++) {
+                let btn = buttons.item(i);
+                btn.disabled = false;
+            }
         }
 
         function showAFieldsets(Fieldsets) {
@@ -140,14 +197,26 @@
 
         fieldsetsa = getOnlyWay('a');
         fieldsetsb = getOnlyWay('b');
-        truba.onclick = () => { submitValueClear(); addValueForSubmit2(truba); showAFieldsets(fieldsetsa); enableAndDisable(fason); };
-        fason.onclick = () => { submitValueClear(); addValueForSubmit2(fason); showAFieldsets(fieldsetsb); enableAndDisable(truba); };
+        truba.onclick = () => { submitValueClear(); addValueForSubmit2(truba); showAFieldsets(fieldsetsa); enableAndDisable(fason); enabledAllButtons(); };
+        fason.onclick = () => { submitValueClear(); addValueForSubmit2(fason); showAFieldsets(fieldsetsb); enableAndDisable(truba); enabledAllButtons(); };
+
+        function enableAndDisableN(e) {
+            let id = e.target.id;
+            let value = e.target.value;
+            let all = document.querySelectorAll('#'+id);
+            all.forEach(item => {if (item.value !== value) enableAndDisable(item)});  
+        }
 
         function addValueForSubmit(button){
             let submit = document.getElementById("submit");
             let value = submit.value;
-            value === "" ? value = button.target.value : value = `${value};${button.target.value}`;
-            submit.value = value;
+            if (~value.indexOf(button.target.value)) submit.value = value.replace(';'+button.target.value, '');
+            else{
+                value === "" ? value = button.target.value : value = `${value};${button.target.value}`;
+                submit.value = value;
+            }
+            
+            enableAndDisableN(button);
         }
 
         function addValueForSubmit2(button) {
@@ -160,8 +229,5 @@
         for (let i = 3; i < buttons.length; i++) {
             buttons.item(i).onclick = addValueForSubmit;
         }
-
-        
-
     </script>
 </form>
