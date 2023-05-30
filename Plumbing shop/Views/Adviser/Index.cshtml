@@ -20,6 +20,12 @@
         column-gap: 1rem;
     }
 
+    input{
+        width: 20vw;
+        height: 3vh;
+        padding: 1rem;
+    }
+
     form div{
         padding: 2rem;
         border: 2px solid aquamarine;
@@ -104,36 +110,80 @@
         </div>
     </fieldset>
 
-    <fieldset id="diametr">
-        <h2>По диаметру</h2>
+    <fieldset id="soed">
+        <h2>По способу соединения</h2>
         <div>
-            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <button id="a5" name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <button id="a5" name="nerazem" value="Неразъёмный" class="btn btn-info">Неразъёмный</button>
         </div>
     </fieldset>
 
-    <fieldset id="dlina">
-        <h2>По длину</h2>
+    <fieldset id="diametr">
+        <h2>По диаметру</h2>
         <div>
-            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <button id="b5" name="mm15" value="15мм" class="btn btn-info">15мм</button>
+            <button id="b5" name="mm20" value="20мм" class="btn btn-info">20мм</button>
+            <button id="b5" name="mm50" value="50мм" class="btn btn-info">50мм</button>
+            <button id="b5" name="mm80" value="80мм" class="btn btn-info">80мм</button>
+        </div>
+    </fieldset>
+
+    <fieldset id="diametr">
+        <h2>По диаметру</h2>
+        <div>
+            <button id="a6" name="mm15" value="15мм" class="btn btn-info">15мм</button>
+            <button id="a6" name="mm20" value="20мм" class="btn btn-info">20мм</button>
+            <button id="a6" name="mm50" value="50мм" class="btn btn-info">50мм</button>
+            <button id="a6" name="mm80" value="80мм" class="btn btn-info">80мм</button>
         </div>
     </fieldset>
 
     <fieldset id="proizvod">
         <h2>По производителю</h2>
         <div>
-            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <button id="b6" name="mittrubzavod" value="Мытищинский трубный завод" class="btn btn-info">Мытищинский трубный завод</button>
+            <button id="b6" name="rossevzapad" value="Ростерм Северо-Запад" class="btn btn-info">Ростерм Северо-Запад</button>
+            <button id="b6" name="cheboktrubzavod" value="Чебоксарский трубный завод" class="btn btn-info">Чебоксарский трубный завод</button>
+        </div>
+    </fieldset>
+
+    <fieldset id="dlina">
+        <h2>По длине</h2>
+        <div>
+            <button id="a7" name="m5" value="5м" class="btn btn-info">5м</button>
+            <button id="a7" name="m6" value="6м" class="btn btn-info">6м</button>
+            <button id="a7" name="m7" value="7м" class="btn btn-info">7м</button>
+            <button id="a7" name="m9" value="9м" class="btn btn-info">9м</button>
         </div>
     </fieldset>
 
     <fieldset id="price">
         <h2>По цене</h2>
         <div>
-            <button name="razem" value="Разъёмный" class="btn btn-info">Разъёмный</button>
+            <input id="b7" name="price" placeholder="Цена">
+        </div>
+    </fieldset>
+
+    <fieldset id="proizvod">
+        <h2>По производителю</h2>
+        <div>
+            <button id="a8" name="voltrubzavod" value="Волжский трубный завод" class="btn btn-info">Волжский трубный завод</button>
+            <button id="a8" name="zagortrubzavod" value="Загорский трубный завод" class="btn btn-info">Загорский трубный завод</button>
+            <button id="a8" name="sevtrubzavod" value="Северский трубный завод" class="btn btn-info">Северский трубный завод</button>
+        </div>
+    </fieldset>
+
+    <fieldset id="price">
+        <h2>По цене</h2>
+        <div>
+            <input id="a9" name="price" placeholder="Цена">
         </div>
     </fieldset>
     <button id="submit" name="submit" class="btn btn-outline-info">Найти</button>
 
     <script>
+        const countFieldset = 10;
+
         let fieldsets = document.getElementsByTagName("fieldset");
         for(let i = 1; i < fieldsets.length; i++)
             fieldsets[i].style.display = "none";
@@ -169,8 +219,8 @@
                 let nextNumId = Number(id[1]) + 1;
                 let nextId = id[0] + String(nextNumId);
 
-
-                if (nextNumId < 5) {
+                
+                if (nextNumId < countFieldset) {
                     let nextFieldset = document.getElementById(nextId).parentElement.parentElement;
                     fieldsetsWay.push(nextFieldset);
                 }
@@ -207,16 +257,16 @@
             all.forEach(item => {if (item.value !== value) enableAndDisable(item)});  
         }
 
-        function addValueForSubmit(button){
+        function addValueForSubmit(item){
             let submit = document.getElementById("submit");
             let value = submit.value;
-            if (~value.indexOf(button.target.value)) submit.value = value.replace(';'+button.target.value, '');
+            if (~value.indexOf(item.target.value)) submit.value = value.replace(';' + item.target.value, '');
             else{
-                value === "" ? value = button.target.value : value = `${value};${button.target.value}`;
+                value === "" ? value = item.target.value : value = `${value};${item.target.value}`;
                 submit.value = value;
             }
             
-            enableAndDisableN(button);
+            enableAndDisableN(item);
         }
 
         function addValueForSubmit2(button) {
@@ -224,6 +274,16 @@
             let value = submit.value;
             value === "" ? value = button.value : value = `${value};${button.value}`;
             submit.value = value;
+        }
+
+        function addValueForSubmitInput(text){
+            console.log(text);
+        }
+
+        let inputs = document.getElementsByTagName("input");
+
+        for (let i = 0; i < inputs.length; i++) {
+            inputs.item(i).onchange = addValueForSubmit;
         }
 
         for (let i = 3; i < buttons.length; i++) {

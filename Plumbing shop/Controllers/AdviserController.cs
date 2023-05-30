@@ -8,7 +8,6 @@ namespace Plumbing_shop.Controllers
 	{
         public IActionResult Index(string button)
         {
-            _ = ViewData["ClickedButton"] is null ? ViewData["ClickedButton"] = "Нихрена" : ViewData["ClickedButton"] = button;
             return View();
         }
 
@@ -16,9 +15,9 @@ namespace Plumbing_shop.Controllers
         [HttpPost]
 		public IActionResult GetData()
 		{
-            string button = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
-            string[] data = button.Split(';');
-            foreach (string s in data)
+            string? button = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
+            string?[] data = button.Split(';');
+            foreach (string? s in data)
             {
                 Console.WriteLine(s);
             }
