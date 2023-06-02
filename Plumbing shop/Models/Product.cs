@@ -12,7 +12,17 @@
             if (db.Entities.Count() == 0) return;
 
             entity = db.Entities.Find(id);
+            setProductAttVal(db, id);
+        }
 
+        public Product(PlumbingDbContext db, Entity entity)
+        {
+            this.entity = entity;
+            setProductAttVal(db, entity.Id);
+        }
+
+        private void setProductAttVal(PlumbingDbContext db, int? id)
+        {
             //Атрибуты
             List<Value> values_att = db.Values.Where(s => s.Id_Entity == id).ToList();
             List<int?> att_ids = new List<int?>();
@@ -21,7 +31,6 @@
 
             //Значения
             values = db.Values.Where(s => s.Id_Entity == id).ToList();
-
         }
 
         static public List<Product> createProducts(PlumbingDbContext db) 

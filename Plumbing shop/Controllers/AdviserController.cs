@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Plumbing_shop.Controllers
 {
@@ -15,13 +13,10 @@ namespace Plumbing_shop.Controllers
         [HttpPost]
 		public IActionResult GetData()
 		{
-            string? button = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
-            string?[] data = button.Split(';');
-            foreach (string? s in data)
-            {
-                Console.WriteLine(s);
-            }
-            return RedirectToAction("Index");
+            string? data = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
+
+            TempData["data"] = data;
+            return Redirect("~/Home/Index");
 		}
 	}
 }

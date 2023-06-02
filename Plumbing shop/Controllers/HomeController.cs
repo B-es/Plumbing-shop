@@ -18,9 +18,15 @@ namespace Plumbing_shop.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            var Products = Product.createProducts(db);
-            int pageSize = 6;   // количество элементов на странице
+            List<Product> Products = new List<Product>();
 
+            if (TempData["data"] != null)
+                Products = RecModule.ExpSystem(TempData["data"].ToString(), db);
+
+            if(Products.Count == 0) Products = Product.createProducts(db);
+
+
+            int pageSize = 6;   // количество элементов на странице
             var count = Products.Count;
 
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
@@ -29,6 +35,7 @@ namespace Plumbing_shop.Controllers
                 PageViewModel = pageViewModel,
                 Products = Products
             };
+
             return View(viewModel);
         }
 
