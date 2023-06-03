@@ -1,0 +1,51 @@
+﻿@{
+    IndexViewModel Model = (IndexViewModel)ViewBag.viewModel;
+}
+
+@*Место для товаров и их вывод*@
+<div class='product-place'>
+    @for (int i = @Model.PageViewModel.StartLoop; i < @Model.PageViewModel.EndLoop; i++)
+    {
+        <div class='product' id="@i">
+            <h2 style="text-align:center;">@Model.Products?.ElementAt(i).entity?.Name</h2>
+            @for (int j = 0; j < @Model.Products?.ElementAt(i).attributes?.Count; j++)
+            {
+                <h4>@Model.Products.ElementAt(i).attributes?.ElementAt(j)?.Name - @Model.Products.ElementAt(i)?.values?.ElementAt(j).value</h4>
+            }
+            <h4>Цена - @Model.Products?.ElementAt(i).entity?.Price</h4>
+        </div>
+    }
+    <script>
+        let productBlocks = document.getElementsByClassName("product");
+        productBlocks.item(0).parentElement
+        function showScrollBar(e) {
+            elem = document.getElementById(e.target.parentElement.id)
+            if (elem === null && e.target.className === 'product') elem = document.getElementById(e.target.id)
+            elem.style.overflowY !== 'scroll' ? elem.style.overflowY = 'scroll' : elem.style.overflowY = 'hidden';
+        }
+
+        for (let elem of productBlocks) {
+            elem.addEventListener('click', showScrollBar);
+        }
+    </script>
+</div>
+
+@*Пагинация*@
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-dark" style="text-align:center; width:100%">
+        <i class="glyphicon glyphicon-chevron-right"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-dark" style="text-align:center; width:100%">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

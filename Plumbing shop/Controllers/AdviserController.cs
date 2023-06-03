@@ -16,6 +16,7 @@ namespace Plumbing_shop.Controllers
             string? data = Request.Form.FirstOrDefault(x => x.Key == "submit").Value;
 
             TempData["data"] = data;
+            TempData["isRec"] = true;
             return Redirect("~/Home/Index");
 		}
 	}

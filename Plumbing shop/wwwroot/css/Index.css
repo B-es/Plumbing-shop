@@ -1,5 +1,5 @@
 ﻿.product {
-    color: cadetblue;
+    color: lightseagreen;
     border: 2px solid aquamarine;
     width: 20.4vw;
     height: 30vh;
@@ -8,8 +8,22 @@
     margin: 1rem;
     font-size: 20px;
     transition: background linear .2s;
-    word-wrap:break-word;
-    overflow:hidden;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.product2 {
+    color: yellowgreen;
+    border: 2px solid aquamarine;
+    width: 20.4vw;
+    height: 30vh;
+    background-color: transparent;
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 20px;
+    transition: background linear .2s;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 

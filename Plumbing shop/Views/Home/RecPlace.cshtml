@@ -1,0 +1,37 @@
+﻿@model IndexViewModel
+
+@{
+    List<Product> Model = (List<Product>)ViewBag.ProductRec;
+}
+
+@if (Model != null && @Model.Count() != 0)
+{
+    <h1 style="text-align:center; color:cadetblue;">Рекомендованные товары</h1>
+    <div class='product-place'>
+        @for (int i = 0; i < @Model.Count(); i++)
+        {
+            <div class='product2' id="a @i">
+                <h2 style="text-align:center;">@Model?.ElementAt(i).entity?.Name</h2>
+                @for (int j = 0; j < @Model?.ElementAt(i).attributes?.Count && j < 3; j++)
+                {
+                    <h4>@Model.ElementAt(i).attributes?.ElementAt(j)?.Name - @Model.ElementAt(i)?.values?.ElementAt(j).value</h4>
+                }
+                <h4>Цена - @Model?.ElementAt(i).entity?.Price</h4>
+            </div>
+
+        }
+        <script>
+            let productBlocks2 = document.getElementsByClassName("product2");
+            productBlocks2.item(0).parentElement
+            function showScrollBar(e) {
+                elem = document.getElementById(e.target.parentElement.id)
+                if (elem === null && e.target.className === 'product2') elem = document.getElementById(e.target.id)
+                elem.style.overflowY !== 'scroll' ? elem.style.overflowY = 'scroll' : elem.style.overflowY = 'hidden';
+            }
+
+            for (let elem of productBlocks2) {
+                elem.addEventListener('click', showScrollBar);
+            }
+        </script>
+    </div>
+}

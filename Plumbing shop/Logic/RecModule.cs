@@ -1,58 +1,50 @@
 ﻿using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Newtonsoft.Json.Linq;
 using Plumbing_shop.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Plumbing_shop
 {
     static public class RecModule
     {
         static private PlumbingDbContext Db;
-        static public List<Models.Product> ExpSystem(string? data, PlumbingDbContext db)
+
+        static private List<string> cutterList(List<string> strings)
+        {
+            List<string> values = new List<string>(strings);
+            for (int i = 0; i < values.Count; i++)
+                values[i] = values[i].Substring(values[i].IndexOf(":") + 1, values[i].Length - values[i].IndexOf(":") - 1);
+            return values;
+        }
+        
+        static public List<Product> selectProducts(string? data, PlumbingDbContext db)
         {
             Db = db;
+            var (values, findEntities) = getDataForSelection(data);
+            return selectionProducts(values, findEntities);
+        }
+
+        static private (List<string>, List<Entity>) getDataForSelection(string? data)
+        {
+            
             List<string> dataMas = data.Split(';').ToList();
             string? entityName = dataMas[0];
             dataMas.RemoveAt(0);
-            List<string> values = dataMas;
+            List<string> values = cutterList(dataMas);
             List<Entity> findEntities;
 
-            List<Entity> findOtherEnt;
+            if (entityName == "ФЧ") findEntities = Db.Entities.Where(entity => entity.Name != "Труба").ToList();
+            else if (entityName == string.Empty) findEntities = Db.Entities.ToList();
+            else findEntities = Db.Entities.Where(entity => entity.Name == entityName).ToList();
 
-            List<Product> Products = new List<Product>();
-
-            if (entityName == "ФЧ") findEntities = db.Entities.Where(entity => entity.Name != "Труба").ToList();
-            else if (entityName == string.Empty) findEntities = db.Entities.ToList();
-            else findEntities = db.Entities.Where(entity => entity.Name == entityName).ToList();
-
-            findOtherEnt = db.Entities.Where(entity => entity.Name != entityName).ToList();
-
-            List<Value>? test = db.Values.Where(v => v.Id_Attribute == 3 && v.Id_Entity == 3).ToList();
-            List<string?> test2 = new List<string?>();
-            foreach (var val in test)
-            {
-                test2.Add(val.value);
-            }
-            Console.WriteLine(test2[0]);
-
-            var resEntities = selectionEntities(values, findEntities);
-
-            var recEntities = getRecProducts(values, findOtherEnt);
-
-            foreach (var entity in resEntities)
-            {
-                Console.WriteLine($"Результат - {entity.Name}, id = {entity.Id}");
-            }
-
-            foreach (var entity in findEntities)
-            {
-                Products.Add(new Product(db, entity));
-            }
-
-            return Products;
+            return (values, findEntities);
         }
 
-        static private List<Entity> selectionEntities(List<string> values, List<Entity> findEntities)
+        static private List<Product> selectionProducts(List<string> values, List<Entity> findEntities)
         {
+            List<Product> Products = new List<Product>();
             var ids = findEntities.Select(entity => entity.Id).ToList();
+            List<Entity> entities = new List<Entity>(findEntities);
             foreach (string value in values)
             {
                 for (int i = 0; i < ids.Count; i++)
@@ -60,36 +52,89 @@ namespace Plumbing_shop
                     int count = Db.Values.Count(v => v.Id_Entity == ids[i] && v.value == value);
                     if (count == 0)
                     {
-                        findEntities.RemoveAt(i);
+                        entities.RemoveAt(i);
                         ids.RemoveAt(i);
                     }
                 }
             }
-            return findEntities;
-        }
 
-        static private List<Entity> getRecProducts(List<string> values, List<Entity> findOtherEnt)
-        {
-            var ids = findOtherEnt.Select(entity => entity.Id).ToList();
-            bool сompatibility;
-            foreach (string value in values)
+            foreach (var entity in entities)
             {
-                for (int i = 0; i<ids.Count; i++)
+                Products.Add(new Product(Db, entity));
+            }
+
+            return Products;
+        }
+
+        static public List<Product> selectRecProduct(string? data, PlumbingDbContext db)
+        {
+            Db = db;
+            var (values, findOtherEnt) = getDataForRec(data);
+            return getRecProducts(values, findOtherEnt);
+        }
+
+        static private (List<string>, List<Entity>) getDataForRec(string? data)
+        {
+            List<string> dataMas = data.Split(';').ToList();
+            string? entityName = dataMas[0];
+            dataMas.RemoveAt(0);
+
+            List<Entity> findOtherEnt;
+            findOtherEnt = Db.Entities.Where(entity => entity.Name != entityName).ToList();
+
+            return (dataMas, findOtherEnt);
+        }
+
+        static private List<Product> getRecProducts(List<string> vals, List<Entity> findOtherEnt)
+        {
+            List<Product> Products = new List<Product>();
+            var ids = findOtherEnt.Select(entity => entity.Id).ToList();
+            List<Entity> entities = new List<Entity>(findOtherEnt);
+            List<string> values = new List<string>(vals);
+            bool сompatibility;
+            bool isTruba = false;
+
+            for(int i = 0; i < values.Count; i++)
+                if (values[i].Contains("Тип трубопровода") || values[i].Contains("Длина")) isTruba = true;
+
+            if(isTruba) 
+                for (int i = 0; i < values.Count; i++)
                 {
-                    сompatibility = rools(Db, value, i);
-                    if (сompatibility == false)
+                    if (values[i].Contains("Производитель") || values[i].Contains("Длина") ||
+                        values[i].Contains("Тип трубопровода") || values[i].Contains("Материал")) { values.RemoveAt(i); i = -1; } 
+                }
+            else
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (values[i].Contains("Температурный режим")) { values.RemoveAt(i); i = -1; }
+                }
+
+            values = cutterList(values);
+            
+            for (int i = 0; i<ids.Count; ++i)
+            {
+                foreach (string value in values)
+                {
+                    сompatibility = rools(value, ids[i], isTruba);
+                    if (!сompatibility)
                     {
-                        findOtherEnt.RemoveAt(i);
+                        entities.RemoveAt(i);
                         ids.RemoveAt(i);
+                        i = -1;
+                        break;
                     }
-                    
                 }
             }
 
-            return findOtherEnt;
+            foreach (var entity in entities)
+            {
+                Products.Add(new Product(Db, entity));
+            }
+
+            return Products;
         }
 
-        static private bool rools(PlumbingDbContext db, string value, int currentId)
+        static private bool rools(string value, int? currentId, bool isTruba)
         {
             bool materialFlag = false;
             bool tempFlag = false;
@@ -97,28 +142,27 @@ namespace Plumbing_shop
             bool diamFlag = false;
 
             // Проверка совместимости по температурному режиму (Трубы) - материалу (Фасонные части)
-            if (value == "От 5 до 30 градусов" || value == "От 30 до 65 градусов" || value == "От 65 до 80 градусов" || value == "От 80 до 120 градусов")
+            if (isTruba && (value == "От 5 до 30 градусов" || value == "От 30 до 65 градусов" || value == "От 65 до 80 градусов" || value == "От 80 до 120 градусов"))
             {
                 // Достаем значение из БД
-                List<Value>? test = db.Values.Where(v => v.Id_Attribute == 3 && v.Id_Entity == currentId).ToList();
-                List<string?> material1 = new List<string?>();
-                foreach (var val in test)
-                {
-                    material1.Add(val.value);
-                }
-
-                string material = material1[0];
+                Value? test = Db.Values.Where(v => v.Id_Attribute == 3 && v.Id_Entity == currentId).SingleOrDefault();
+                string? material = "";
+                if (test != null)
+                    material = test.value;
 
                 if (value == "От 5 до 30 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "ПВХ" || material == "Чугун" || material == "Бетон"))
                 {
                     materialFlag = true;
                 }
-                else
+                else if (value == "От 30 до 65 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "ПВХ" || material == "Чугун"))
                 {
-                    materialFlag = false;
+                    materialFlag = true;
                 }
-
-                if (value == "От 30 до 65 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "ПВХ" || material == "Чугун"))
+                else if (value == "От 65 до 80 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "Чугун"))
+                {
+                    materialFlag = true;
+                }
+                else if (value == "От 80 до 120 градусов" && (material == "Сталь" || material == "Медь" || material == "Чугун"))
                 {
                     materialFlag = true;
                 }
@@ -126,76 +170,34 @@ namespace Plumbing_shop
                 {
                     materialFlag = false;
                 }
-
-                if (value == "От 65 до 80 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "Чугун"))
-                {
-                    materialFlag = true;
-                }
-                else
-                {
-                    materialFlag = false;
-                }
-
-                if (value == "От 80 до 120 градусов" && (material == "Сталь" || material == "Медь" || material == "Чугун"))
-                {
-                    materialFlag = true;
-                }
-                else
-                {
-                    materialFlag = false;
-                }
-            }
+            }   
 
             // Проверка совместимости по материалу (Фасонные части) - температурному режиму (Трубы)
-            if (value == "Медь" || value == "Сталь" || value == "Чугун" || value == "ПВХ" || value == "Полиэтилен")
+            if (!isTruba && (value == "Медь" || value == "Сталь" || value == "Чугун" || value == "ПВХ" || value == "Полиэтилен"))
             {
                 // Достаём значение из БД
-                List<Value>? test = db.Values.Where(v => v.Id_Attribute == 2 && v.Id_Entity == currentId).ToList();
-                List<string?> temperatureMas = new List<string?>();
-                foreach (var val in test)
-                {
-                    temperatureMas.Add(val.value);
-                }
+                Value? test = Db.Values.Where(v => v.Id_Attribute == 2 && v.Id_Entity == currentId).SingleOrDefault();
+                string? temperature = "";
+                if (test != null)
+                    temperature = test.value;
 
-                string temperature = temperatureMas[0];
-                
                 if (value == "Медь" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
                     materialFlag = true;
                 }
-                else
-                {
-                    materialFlag = false;
-                }
-
-                if (value == "Сталь" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
+                else if (value == "Сталь" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
                     materialFlag = true;
                 }
-                else
-                {
-                    materialFlag = false;
-                }
-
-                if (value == "Чугун" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
+                else if (value == "Чугун" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
                     materialFlag = true;
                 }
-                else
-                {
-                    materialFlag = false;
-                }
-
-                if (value == "ПВХ" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
+                else if (value == "ПВХ" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
                 {
                     materialFlag = true;
                 }
-                else
-                {
-                    materialFlag = false;
-                }
-
-                if (value == "Полиэтилен" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
+                else if (value == "Полиэтилен" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
                 {
                     materialFlag = true;
                 }
@@ -209,13 +211,10 @@ namespace Plumbing_shop
             if (value == "Разъёмный" || value == "Неразъёмный")
             {
                 // Достаём значение из БД
-                List<Value>? test = db.Values.Where(v => v.Id_Attribute == 4 && v.Id_Entity == currentId).ToList();
-                List<string?> connectionMas = new List<string?>();
-                foreach (var val in test)
-                {
-                    connectionMas.Add(val.value);
-                }
-                string connection = connectionMas[0];
+                Value? test = Db.Values.Where(v => v.Id_Attribute == 4 && v.Id_Entity == currentId).SingleOrDefault();
+                string? connection = "";
+                if (test != null)
+                    connection = test.value;
 
                 if (value == connection)
                 {
@@ -228,16 +227,13 @@ namespace Plumbing_shop
             }
 
             // Проверка совместимости по Диаметру
-            if (value == "15" || value == "20" || value == "50" || value == "80")
+            if (value == "15мм" || value == "20мм" || value == "50мм" || value == "80мм")
             {
                 // Достаём значение из БД
-                List<Value>? test = db.Values.Where(v => v.Id_Attribute == 5 && v.Id_Entity == currentId).ToList();
-                List<string?> diameterMas = new List<string?>();
-                foreach (var val in test)
-                {
-                    diameterMas.Add(val.value);
-                }
-                string diameter = diameterMas[0];
+                Value? test = Db.Values.Where(v => v.Id_Attribute == 5 && v.Id_Entity == currentId).SingleOrDefault();
+                string? diameter = "";
+                if (test != null)
+                    diameter = test.value;
 
                 if (value == diameter)
                 {
@@ -250,14 +246,7 @@ namespace Plumbing_shop
             }
 
             // Определяем подходит ли товар с учётом рассмотренных критериев совместимости
-            if (materialFlag == true && connectFlag == true && tempFlag == true && diamFlag == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return materialFlag || connectFlag || diamFlag || tempFlag;
 
         }
     }
