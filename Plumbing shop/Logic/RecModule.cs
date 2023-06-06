@@ -133,10 +133,6 @@ namespace Plumbing_shop
 
         static private bool rools(string value, int? currentId, bool isTruba)
         {
-            bool materialFlag = false;
-            bool tempFlag = false;
-            bool connectFlag = false;
-            bool diamFlag = false;
 
             // Проверка совместимости по температурному режиму (Трубы) - материалу (Фасонные части)
             if (isTruba && (value == "От 5 до 30 градусов" || value == "От 30 до 65 градусов" || value == "От 65 до 80 градусов" || value == "От 80 до 120 градусов"))
@@ -149,23 +145,19 @@ namespace Plumbing_shop
 
                 if (value == "От 5 до 30 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "ПВХ" || material == "Чугун" || material == "Бетон"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "От 30 до 65 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "ПВХ" || material == "Чугун"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "От 65 до 80 градусов" && (material == "Сталь" || material == "Медь" || material == "Полиэтилен" || material == "Чугун"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "От 80 до 120 градусов" && (material == "Сталь" || material == "Медь" || material == "Чугун"))
                 {
-                    materialFlag = true;
-                }
-                else
-                {
-                    materialFlag = false;
+                    return true;
                 }
             }   
 
@@ -180,27 +172,23 @@ namespace Plumbing_shop
 
                 if (value == "Медь" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "Сталь" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "Чугун" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов" || temperature == "От 65 до 80 градусов" || temperature == "От 80 до 120 градусов"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "ПВХ" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
                 {
-                    materialFlag = true;
+                    return true;
                 }
                 else if (value == "Полиэтилен" && (temperature == "От 5 до 30 градусов" || temperature == "От 30 до 65 градусов"))
                 {
-                    materialFlag = true;
-                }
-                else
-                {
-                    materialFlag = false;
+                    return true;
                 }
             }
 
@@ -215,11 +203,7 @@ namespace Plumbing_shop
 
                 if (value == connection)
                 {
-                    connectFlag = true;
-                }
-                else
-                {
-                    connectFlag = false;
+                    return true;
                 }
             }
 
@@ -234,16 +218,12 @@ namespace Plumbing_shop
 
                 if (value == diameter)
                 {
-                    diamFlag = true;
-                }
-                else
-                {
-                    diamFlag = false;
+                    return true;
                 }
             }
 
             // Определяем подходит ли товар с учётом рассмотренных критериев совместимости
-            return materialFlag || connectFlag || diamFlag || tempFlag;
+            return false;
 
         }
     }
